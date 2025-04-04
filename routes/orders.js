@@ -16,7 +16,7 @@ router.post('/makeNewOrder', async (req, res) => {
 });
 
 // Изменение статуса заказа
-router.put('/updateOrderStatus/:id', async (req, res) => {
+router.post('/updateOrderStatus/:id', async (req, res) => {
     const { id } = req.params;
     const { orderStatus } = req.body;
 
@@ -24,14 +24,24 @@ router.put('/updateOrderStatus/:id', async (req, res) => {
         const updatedOrder = await Order.findByIdAndUpdate(
             id,
             { orderStatus },
-            { new: true } // Возвращаем обновленный документ
+            { new: true }
         );
 
         if (!updatedOrder) {
             return res.status(404).json({ message: 'Order not found' });
         }
 
-        res.json(updatedOrder);
+        res.redirect('/orders/manageOrders'); // Перенаправление
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+// Отображение страницы с заказами
+router.get('/manageOrders', async (req, res) => {
+    try {
+        const orders = await Order.find();
+        res.render('manageOrders', { orders }); // Передаем заказы в шаблон
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

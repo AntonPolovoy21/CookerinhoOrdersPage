@@ -1,0 +1,58 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background-color: #f4f4f4;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 12px;
+    text-align: center; /* Центрирование текста */
+}
+
+th {
+    background-color: #544caf;
+    color: white;
+}
+
+form {
+    display: inline;
+}
+
+tr {
+    background-color: #fff; /* Фон по умолчанию для всех строк */
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9; /* Светло-серый фон для четных строк */
+}
+
+.preparing {
+    background-color: #fff3cd !important; /* Светло-желтый цвет */
+}
+
+.completed {
+    background-color: #d4edda !important; /* Светло-зеленый цвет */
+}
+
+.canceled {
+    background-color: #f8d7da !important; /* Светло-красный цвет */
+}
+
+tr:hover {
+    background-color: #f1f1f1; /* Цвет при наведении */
+}

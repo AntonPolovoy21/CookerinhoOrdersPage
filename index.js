@@ -14,28 +14,18 @@ mongoose.connect('mongodb://localhost:27017/restaurant', {
     useUnifiedTopology: true
 });
 
-// Настройка веб-сокетов
-io.on('connection', (socket) => {
-    console.log('A user connected');
-
-    // Обработка получения нового заказа
-    socket.on('new_order', (order) => {
-        const newOrder = new Order(order); // Используйте модель Order из order.js
-        newOrder.save().then(() => {
-            io.emit('order_added', newOrder);
-        });
-    });
-
-    socket.on('disconnect', () => {
-        console.log('User disconnected');
-    });
-});
+// Настройка EJS
+app.set('view engine', 'ejs');
+app.set('views', 'views'); // Папка для шаблонов
 
 // Middleware
 app.use(express.json());
+app.use(express.urlencoded({ extended: true })); // Для обработки данных форм
 app.use('/orders', ordersRouter);
+app.use(express.static('public'));
 
 // Запуск сервера
 server.listen(3000, () => {
     console.log('Server is running on http://localhost:3000');
+    console.log('Page with orders is running on http://localhost:3000/orders/manageOrders');
 });

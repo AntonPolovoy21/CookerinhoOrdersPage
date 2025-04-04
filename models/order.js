@@ -12,6 +12,7 @@ const orderSchema = new mongoose.Schema({
     pickUp: { type: String, required: true }, // Через сколько заберет заказ
     paymentMethod: { type: String, required: true }, // Способ оплаты
     totalPrice: { type: Number, required: true }, // Общая стоимость заказа
+    phoneNumber: { type: String, required: true }, // Номер телефона клиента
     orderStatus: { type: String, required: true }, // Статус заказа
 });
 

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Управление заказами</title>
+    <link rel="stylesheet" href="/styles.css"> <!-- Подключаем CSS -->
+</head>
+<body>
+    <h1>Список заказов</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Клиент</th>
+                <th>Блюда</th>
+                <th>Сумма</th>
+                <th>Способ оплаты</th>
+                <th>Сможет забрать через</th>
+                <th>Статус</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% orders.forEach(order => { %>
+                <tr class="
+                    <%= order.orderStatus === 'Готовится' ? 'preparing' : 
+                        order.orderStatus === 'Выполнен' ? 'completed' : 
+                        order.orderStatus === 'Отменен' ? 'canceled' : 
+                        '' %>
+                ">
+                    <td><%= order.customer %></td>
+                    <td>
+                        <ul>
+                            <% order.dishes.forEach(dish => { %>
+                                <li><%= dish.name %></li>
+                            <% }) %>
+                        </ul>
+                    </td>
+                    <td><%= order.totalPrice %> Br.</td>
+                    <td><%= order.paymentMethod %></td>
+                    <td><%= order.pickUp %></td>
+                    <td><%= order.orderStatus %></td>
+                    <td>
+                        <form action="/orders/updateOrderStatus/<%= order._id %>" method="POST">
+                            <select name="orderStatus">
+                                <option value="Выполнен">Выполнен</option>
+                                <option value="Отменен">Отменен</option>
+                                <option value="Готовится">Готовится</option>
+                                <option value="Обрабатывается">Обрабатывается</option>
+                            </select>
+                            <button type="submit">Обновить статус</button>
+                        </form>
+                    </td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</body>
+</html>
