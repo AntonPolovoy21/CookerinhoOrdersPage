@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Управление заказами</title>
-    <link rel="stylesheet" href="/styles.css"> <!-- Подключаем CSS -->
+    <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
     <h1>Список заказов</h1>
@@ -15,7 +15,8 @@
                 <th>Блюда</th>
                 <th>Сумма</th>
                 <th>Способ оплаты</th>
-                <th>Сможет забрать через</th>
+                <th>Забрать через</th>
+                <th>Номер телефона</th>
                 <th>Статус</th>
                 <th>Действия</th>
             </tr>
@@ -39,6 +40,7 @@
                     <td><%= order.totalPrice %> Br.</td>
                     <td><%= order.paymentMethod %></td>
                     <td><%= order.pickUp %></td>
+                    <td><%= order.phoneNumber %></td>
                     <td><%= order.orderStatus %></td>
                     <td>
                         <form action="/orders/updateOrderStatus/<%= order._id %>" method="POST">
@@ -49,7 +51,7 @@
                                 <option value="Обрабатывается">Обрабатывается</option>
                             </select>
                             <button type="submit">Обновить статус</button>
-                        </form>
+                        </form>                        
                     </td>
                 </tr>
             <% }) %>

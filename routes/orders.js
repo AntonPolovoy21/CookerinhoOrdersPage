@@ -13,27 +13,30 @@ router.post('/makeNewOrder', async (req, res) => {
     const newOrder = new Order(req.body);
     await newOrder.save();
     res.status(201).json({ id: newOrder._id, message: "Order created successfully" });
+    res.redirect('/orders/manageOrders');
 });
 
-// Изменение статуса заказа
+// Обновление статуса заказа
 router.post('/updateOrderStatus/:id', async (req, res) => {
-    const { id } = req.params;
-    const { orderStatus } = req.body;
-
     try {
-        const updatedOrder = await Order.findByIdAndUpdate(
-            id,
-            { orderStatus },
+        const order = await Order.findByIdAndUpdate(
+            req.params.id,
+            { orderStatus: req.body.orderStatus },
             { new: true }
         );
-
-        if (!updatedOrder) {
-            return res.status(404).json({ message: 'Order not found' });
+        
+        if (!order) {
+            throw new Error('Заказ не найден');
         }
-
-        res.redirect('/orders/manageOrders'); // Перенаправление
+        
+        req.io.emit('statusUpdate', JSON.stringify({
+            newStatus: order.orderStatus
+        }));
+        
+        res.redirect('/orders/manageOrders');
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        console.error('Ошибка обновления статуса:', error);
+        res.status(500).json({ error: 'Ошибка обновления статуса' });
     }
 });
 
